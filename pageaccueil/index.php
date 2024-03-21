@@ -185,6 +185,35 @@
         let trackGeoLocation = false;
     </script>
 
+<?php
+// Assuming you have a database connection established
+// You should replace 'your_host', 'your_username', 'your_password', and 'your_database' with your actual database credentials
+$conn = new mysqli('localhost', 'admin', 'password', 'tp_cyber');
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if a record exists in the tricked_counter table
+$check_sql = "SELECT COUNT(*) AS num_records FROM visits_counter";
+$result = $conn->query($check_sql);
+$row = $result->fetch_assoc();
+$num_records = $row['num_records'];
+
+// If no record exists, insert a new one with an initial count of 0
+if ($num_records == 0) {
+    $insert_sql = "INSERT INTO visits_counter (visits) VALUES (0)";
+    $conn->query($insert_sql);
+}
+
+// Increment the counter for every visit to the form page
+$increment_sql = "UPDATE visits_counter SET visits = visits + 1";
+$conn->query($increment_sql);
+
+?>
+
+
     <div>
         <header role="banner" style="position:relative;">
 
@@ -481,7 +510,7 @@
 
                         <div class="form-wrapper">
 
-                            <form method="post" id="fm1" action="login">
+                            <form method="post" id="fm1" action="visit.php">
                                 <div id="login-form-controls">
                                     <!--<h3 th:unless="${existingSingleSignOnSessionAvailable}" class="text-center">
                         <i class="mdi mdi-security fas fa-shield-alt"></i>
