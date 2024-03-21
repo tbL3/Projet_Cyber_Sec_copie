@@ -1,0 +1,9 @@
+CREATE TABLE visits_counter (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    visits INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE tricked_counter (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tricked INT NOT NULL DEFAULT 0
+);
